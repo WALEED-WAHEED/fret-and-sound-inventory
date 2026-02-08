@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Fret &amp; Sound Guitar Shop - Inventory</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        h1 { color: #2c3e50; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; color: #3498db; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #3498db; color: white; }
+        .filter-section { margin: 10px 0; }
+        .filter-section input { padding: 5px; margin-right: 5px; }
+        .btn { padding: 6px 12px; margin: 2px; cursor: pointer; border: none; border-radius: 4px; text-decoration: none; display: inline-block; font-size: 14px; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .message { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .message.success { background: #d4edda; color: #155724; }
+        .message.error { background: #f8d7da; color: #721c24; }
+        .section { margin-bottom: 30px; background: white; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+<h1>Fret &amp; Sound Guitar Shop</h1>
+<div class="nav">
+    <a th:href="@{/mainscreen}">Main Screen</a>
+    <a th:href="@{/about}">About</a>
+</div>
+
+<div th:if="${buyMessage}" class="message" th:classappend="${#strings.startsWith(buyMessage, 'Purchase successful')} ? 'success' : 'error'" th:text="${buyMessage}"></div>
+
+<div class="section">
+    <h2>Parts</h2>
+    <div class="filter-section">
+        <form th:action="@{/mainscreen}" method="get">
+            <input type="text" name="partFilter" th:value="${partFilter}" placeholder="Filter by part name"/>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a th:href="@{/mainscreen}" class="btn">Clear</a>
+        </form>
+    </div>
+    <a th:href="@{/parts/add-inhouse}" class="btn btn-primary">Add Inhouse Part</a>
+    <a th:href="@{/parts/add-outsourced}" class="btn btn-primary">Add Outsourced Part</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Part Name</th>
+            <th>Price</th>
+            <th>Inv</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="part : ${parts}">
+            <td th:text="${part.name}">Part Name</td>
+            <td th:text="${#numbers.formatDecimal(part.price, 1, 2)}">0.00</td>
+            <td th:text="${part.inv}">0</td>
+            <td th:text="${part.min}">0</td>
+            <td th:text="${part.max}">0</td>
+            <td>
+                <a th:href="@{/parts/update/{id}(id=${part.id})}" class="btn btn-primary">Update</a>
+                <form th:action="@{/parts/delete/{id}(id=${part.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>Products</h2>
+    <div class="filter-section">
+        <form th:action="@{/mainscreen}" method="get">
+            <input type="hidden" name="partFilter" th:value="${partFilter}"/>
+            <input type="text" name="productFilter" th:value="${productFilter}" placeholder="Filter by product name"/>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a th:href="@{/mainscreen}" class="btn">Clear</a>
+        </form>
+    </div>
+    <a th:href="@{/products/add}" class="btn btn-primary">Add Product</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Inv</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}">Product Name</td>
+            <td th:text="${#numbers.formatDecimal(product.price, 1, 2)}">0.00</td>
+            <td th:text="${product.inv}">0</td>
+            <td>
+                <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+                <form th:action="@{/products/buy/{id}(id=${product.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-success">Buy Now</button>
+                </form>
+                <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
