@@ -33,19 +33,11 @@ To stop: press **Ctrl+C** in the terminal.
 
 ## Run Tests
 
-**With Maven (JUnit):**
 ```bash
 mvn test
 ```
 
-**With Java only (no Maven):**
-```bash
-mkdir out -Force
-javac -d out src/main/java/com/shop/inventory/entity/Product.java src/main/java/com/shop/inventory/entity/Part.java src/main/java/com/shop/inventory/entity/InhousePart.java src/main/java/com/shop/inventory/entity/OutsourcedPart.java
-javac -cp out -d out manual-test/com/shop/inventory/RunPartChecks.java
-java -cp out com.shop.inventory.RunPartChecks
-```
-Expected: `Result: 2 passed, 0 failed`.
+Expected: `Tests run: 2, Failures: 0, Errors: 0` (PartTest min/max tests).
 
 ---
 
