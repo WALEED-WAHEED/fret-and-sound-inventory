@@ -1,4 +1,4 @@
-# Build output
+# Build
 target/
 out/
 *.class
@@ -8,37 +8,31 @@ out/
 *.nar
 
 # Maven
+.mvn/wrapper/maven-wrapper.jar
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
-.mvn/wrapper/maven-wrapper.jar
 
-# Persisted data (inventory file)
+# Local data
 *.dat
 
 # IDE
 .idea/
 *.iml
-*.ipr
-*.iws
 .vscode/
 *.code-workspace
 
 # OS
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# Logs
+# Logs & temp
 *.log
 logs/
-
-# Temp
 *.tmp
 *.bak
-*.swp
 *~
 
-# Java
+# JVM
 hs_err_pid*
 replay_pid*
